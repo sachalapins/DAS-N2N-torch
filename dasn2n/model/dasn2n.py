@@ -93,8 +93,8 @@ class dasn2n(nn.Module):
             with pkg_resources.files("dasn2n").joinpath("weights/original.pt") as package weights:
                 self.load_state_dict(torch.load(package_weights, weights_only=True, map_location=model_device))
     
-    
-    def denoise_numpy(self, das_numpy_array, batch_size = 64, overlap = True, step = 0.95, normalize = True, remove_mean_axis = None, std_norm_axis = None, channel_block_length = 1, rmean_on_end = True, track_processing_time = False):
+
+    def denoise_numpy(self, das_numpy_array, batch_size = 64, overlap = True, step = 0.95, normalize = True, remove_mean_axis = None, std_norm_axis = None, channel_block_width = 1, rmean_on_end = True, track_processing_time = False):
 
         '''
         Function to run DAS-N2N model on a 2D numpy array containing DAS data.
@@ -118,11 +118,11 @@ class dasn2n(nn.Module):
         # Standardise data (by std)
         if normalize:
             offset = np.mean(das_numpy_array, axis=remove_mean_axis, keepdims=True)
-            if channel_block_length > 1:
+            if channel_block_width > 1:
                 offset = np.array([np.pad(offset[norm_offset:], (0, norm_offset), mode='reflect') for norm_offset in range(channel_block_width)])
             das_numpy_array = das_numpy_array - offset
             norm_factor = np.std(das_numpy_array, axis=std_norm_axis, keepdims=True)
-            if channel_block_length > 1:
+            if channel_block_width > 1:
                 norm_factor = np.array([np.pad(norm_factor[norm_offset:], (0, norm_offset), mode='reflect') for norm_offset in range(channel_block_width)])
             das_numpy_array = das_numpy_array / norm_factor
             
@@ -278,12 +278,4 @@ class ArrayDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, idx):
         return self.patches[idx]
-    
-    
-def chunk_list(lst, n):
-    '''
-    Function to split a list into chunks of size n
-    '''
-    for i in range(0, len(lst), n):
-        yield lst[i:i + n]
-        
+            
