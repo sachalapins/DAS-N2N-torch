@@ -78,28 +78,20 @@ class dasn2n(nn.Module):
         return torch.reshape(x, (inp.shape))
     
     
-    # def load_weights(self, weights_path):
-        
-    #     ''' 
-    #     Function to load pre-trained DAS-N2N model weights. 
-    #     '''
-        
-    #     self.load_state_dict(torch.load(weights_path))
-
-
     def load_weights(self, weights_path=None):
-    
-        model_device = next(self.parameters()).device   # Identify model device
+        
+        ''' 
+        Function to load pre-trained DAS-N2N model weights. 
+        '''
 
+        model_device = next(self.parameters()).device # Identify model device
         if weights_path:
-            # Load weights from specified path
+            # Load weights from user specified path
             self.load_state_dict(torch.load(weights_path, weights_only=True, map_location=model_device))
         else:
             # Load default weights from package
-            with pkg_resources.files("dasn2n").joinpath("weights/original.pt") as package_weights:
+            with pkg_resources.files("dasn2n").joinpath("weights/original.pt") as package weights:
                 self.load_state_dict(torch.load(package_weights, weights_only=True, map_location=model_device))
-
-        
     
     
     def denoise_numpy(self, das_numpy_array, batch_size = 64, overlap = True, step = 0.95, normalize = True, remove_mean_axis = None, std_norm_axis = None, channel_block_length = 1, rmean_on_end = True, track_processing_time = False):
