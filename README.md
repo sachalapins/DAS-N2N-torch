@@ -16,10 +16,10 @@ pip install dasn2n[jupyter] # If jupyter lab also required
 ## Example usage:
 
 ```
-from dasn2n import dasn2n
+from dasn2n import DASN2N
 
-model = dasn2n() # Initialise model
-model.load_weights() # Load default weights
+model = DASN2N() # Initialise model
+model.load_weights() # Load default weights (from paper)
 # model = model.to('cuda') # Uncomment if CUDA/GPU available
 
 data_denoised = model.denoise_numpy(data) # Denoise 2D numpy array (data) containing DAS data
