@@ -29,7 +29,8 @@ from datetime import datetime
 import gc
 import random
 from skimage.util import view_as_blocks, view_as_windows # For cutting up data into patches
-import tdms_reader
+import importlib.resources as pkg_resources
+
 
 
 class dasn2n(nn.Module):

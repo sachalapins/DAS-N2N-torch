@@ -8,7 +8,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/sachalapins/dasn2n",
     license="GPL-3.0-or-later",
-    packages=find_packages(exclude=["examples", "build", "dist"]),
+    packages=find_packages(exclude=["examples", "data", "build", "dist"]),
     package_data={
         "dasn2n": ["weights/*"],
     },
