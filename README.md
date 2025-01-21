@@ -20,7 +20,7 @@ from dasn2n import dasn2n
 
 model = dasn2n() # Initialise model
 model.load_weights() # Load default weights
-model = model.to('cuda') # If CUDA/GPU available
+# model = model.to('cuda') # Uncomment if CUDA/GPU available
 
-data_denoised = model.denoise(data) # Denoise 2D numpy array (data) containing DAS data
+data_denoised = model.denoise_numpy(data) # Denoise 2D numpy array (data) containing DAS data
 ```
