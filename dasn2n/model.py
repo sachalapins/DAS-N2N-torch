@@ -120,13 +120,19 @@ class DASN2N(nn.Module):
             offset = np.mean(das_numpy_array, axis=remove_mean_axis, keepdims=True)
             if (remove_mean_axis != None) & (channel_block_width > 1):
                 if (int(remove_mean_axis) == 0):
+                    offset = np.squeeze(offset)
                     offset = np.array([np.pad(offset[norm_offset:], (0, norm_offset), mode='reflect') for norm_offset in range(channel_block_width)])
-            das_numpy_array = das_numpy_array - offset
+                    das_numpy_array = das_numpy_array - np.median(offset, axis=0)
+            else:
+                das_numpy_array = das_numpy_array - offset
             norm_factor = np.std(das_numpy_array, axis=std_norm_axis, keepdims=True)
             if (remove_mean_axis != None) & (channel_block_width > 1):
-                if (int(remove_mean_axis) == 0):
+                if (int(std_norm_axis) == 0):
+                    norm_factor = np.squeeze(norm_factor)
                     norm_factor = np.array([np.pad(norm_factor[norm_offset:], (0, norm_offset), mode='reflect') for norm_offset in range(channel_block_width)])
-            das_numpy_array = das_numpy_array / norm_factor
+                    das_numpy_array = das_numpy_array / np.median(norm_factor, axis=0)
+                else:
+                    das_numpy_array = das_numpy_array / norm_factor
             
         # Make sure data type is float32 (required for torch model):
         if das_numpy_array.dtype != 'float32':
