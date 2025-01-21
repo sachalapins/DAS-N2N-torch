@@ -2,7 +2,7 @@
 
 ## Installation:
 
-To install package + core dependencies, run:
+To install package + core dependencies: clone the repository, navigate to the directory and run:
 ```
 pip install .
 ```
