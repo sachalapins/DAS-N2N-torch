@@ -9,8 +9,8 @@ pip install .
 
 After, to install optional dependencies (e.g., for running example notebooks), run:
 ```
-pip install DASdenoiser[optional]
-pip install DASdenoiser[jupyter] # If jupyter lab also required
+pip install dasn2n[optional]
+pip install dasn2n[jupyter] # If jupyter lab also required
 ```
 
 ## Example usage:
