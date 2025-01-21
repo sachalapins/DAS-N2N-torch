@@ -33,7 +33,7 @@ import importlib.resources as pkg_resources
 
 
 
-class dasn2n(nn.Module):
+class DASN2N(nn.Module):
     
     def __init__(self):
         super().__init__()
