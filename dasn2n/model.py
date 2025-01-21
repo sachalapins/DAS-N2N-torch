@@ -90,7 +90,7 @@ class DASN2N(nn.Module):
             self.load_state_dict(torch.load(weights_path, weights_only=True, map_location=model_device))
         else:
             # Load default weights from package
-            with pkg_resources.files("dasn2n").joinpath("weights/original.pt") as package weights:
+            with pkg_resources.files("dasn2n").joinpath("weights/original.pt") as package_weights:
                 self.load_state_dict(torch.load(package_weights, weights_only=True, map_location=model_device))
     
 
