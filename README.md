@@ -1,4 +1,4 @@
-# dasn2n
+# DAS-N2N
 
 ## Installation:
 
