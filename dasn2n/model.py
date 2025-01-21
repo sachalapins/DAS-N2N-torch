@@ -118,11 +118,11 @@ class DASN2N(nn.Module):
         # Standardise data (by std)
         if normalize:
             offset = np.mean(das_numpy_array, axis=remove_mean_axis, keepdims=True)
-            if channel_block_width > 1:
+            if (remove_mean_axis != None) & (int(remove_mean_axis) == 0) & (channel_block_width > 1):
                 offset = np.array([np.pad(offset[norm_offset:], (0, norm_offset), mode='reflect') for norm_offset in range(channel_block_width)])
             das_numpy_array = das_numpy_array - offset
             norm_factor = np.std(das_numpy_array, axis=std_norm_axis, keepdims=True)
-            if channel_block_width > 1:
+            if (remove_mean_axis != None) & (int(remove_mean_axis) == 0) & (channel_block_width > 1):
                 norm_factor = np.array([np.pad(norm_factor[norm_offset:], (0, norm_offset), mode='reflect') for norm_offset in range(channel_block_width)])
             das_numpy_array = das_numpy_array / norm_factor
             
