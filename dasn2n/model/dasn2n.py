@@ -87,7 +87,7 @@ class dasn2n(nn.Module):
         
     
     
-    def denoise_numpy(self, das_numpy_array, batch_size = 64, overlap = True, step = 0.95, normalize = True, remove_mean_axis = None, std_norm_axis = None, rmean_on_end = True, track_processing_time = False):
+    def denoise_numpy(self, das_numpy_array, batch_size = 64, overlap = True, step = 0.95, normalize = True, remove_mean_axis = None, std_norm_axis = None, channel_block_length = 1, rmean_on_end = True, track_processing_time = False):
 
         '''
         Function to run DAS-N2N model on a 2D numpy array containing DAS data.
@@ -110,8 +110,13 @@ class dasn2n(nn.Module):
 
         # Standardise data (by std)
         if normalize:
-            das_numpy_array = das_numpy_array - np.mean(das_numpy_array, axis=remove_mean_axis, keepdims=True)
+            offset = np.mean(das_numpy_array, axis=remove_mean_axis, keepdims=True)
+            if channel_block_length > 1:
+                offset = np.array([np.pad(offset[norm_offset:], (0, norm_offset), mode='reflect') for norm_offset in range(channel_block_width)])
+            das_numpy_array = das_numpy_array - offset
             norm_factor = np.std(das_numpy_array, axis=std_norm_axis, keepdims=True)
+            if channel_block_length > 1:
+                norm_factor = np.array([np.pad(norm_factor[norm_offset:], (0, norm_offset), mode='reflect') for norm_offset in range(channel_block_width)])
             das_numpy_array = das_numpy_array / norm_factor
             
         # Make sure data type is float32 (required for torch model):
