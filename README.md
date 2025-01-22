@@ -26,6 +26,7 @@ model.load_weights() # Load default weights (currently the ones from the paper)
 
 data_denoised = model.denoise_numpy(data) # Denoise 2D numpy array (data) containing DAS data
 ```
+
 See notebooks in `examples` directory for more guidance.
 
 If you would like further guidance on training/implementing a DAS-N2N model for your own DAS data, please feel free to get in touch: [sacha.lapins@bristol.ac.uk](mailto:sacha.lapins@bristol.ac.uk)
