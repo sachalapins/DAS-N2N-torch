@@ -215,6 +215,10 @@ class DASN2N(nn.Module):
                 end = start + batch_size
                 if i == num_batches - 1:
                     end = num_elements
+                # Determine if model is using half precision
+                first_param = next(self.parameters(), None)
+                if first_param is not None and first_param.dtype == torch.float16:
+                    patches = patches.half()
                 if model_device != 'cpu':
                     patches = patches.to(model_device)
                 preds = self(patches)
