@@ -19,7 +19,7 @@ setup(
         "scikit-image>=0.18.0"
     ],
     extras_require={
-        "optional": ["obspy", "scipy", "pandas", "pickle"],
+        "optional": ["obspy", "scipy", "pandas"],
         "jupyter": ["jupyterlab", "ipython"]
     },
     classifiers=[
