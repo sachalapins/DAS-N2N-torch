@@ -32,5 +32,5 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Topic :: Scientific/Engineering :: Artificial Intelligence"
     ],
-    python_requires='>=3.8',
+    python_requires='>=3.8, <3.13', # PyTorch currently recommends Python 3.8 - 3.12
 )
