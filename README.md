@@ -8,6 +8,8 @@ To install package + core dependencies: clone the repository, navigate to the di
 pip install .
 ```
 
+It is recommended that you do this in a new environment (e.g., using virtualenv, conda, etc) to avoid package/Python version compatability issues. If you're having issues, check that your Python version is compatible with your PyTorch version ([here](https://pytorch.org/get-started/locally/)).
+
 After, to install optional dependencies (e.g., for running example notebooks), run:
 ```
 pip install dasn2n[optional]
