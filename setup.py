@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="dasn2n",
-    version="0.2.0",
+    version="0.2.1",
     description="dasn2n: A Python package for denoising DAS data with Noise2Noise",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
