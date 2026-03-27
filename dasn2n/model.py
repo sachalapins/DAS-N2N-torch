@@ -94,7 +94,7 @@ class DASN2N(nn.Module):
                 self.load_state_dict(torch.load(package_weights, weights_only=True, map_location=model_device))
     
 
-    def denoise_numpy(self, das_numpy_array, batch_size = 64, overlap = True, step = 0.95, normalize = True, remove_mean_axis = None, std_norm_axis = None, channel_block_width = 1, rmean_on_end = True, track_processing_time = False):
+    def denoise_numpy(self, das_numpy_array, batch_size = 64, overlap = True, step = 0.95, normalize = True, remove_mean_axis = None, std_norm_axis = None, eps=1e-9, channel_block_width = 1, rmean_on_end = True, track_processing_time = False):
 
         '''
         Function to run DAS-N2N model on a 2D numpy array containing DAS data.
@@ -104,8 +104,13 @@ class DASN2N(nn.Module):
         - batch_size: number of 128x96 patches to process at a time (depends on available memory)
         - overlap: if True, run model on overlapping patches of data
         - step: step size (proportion of patch size) for overlap. Values close to 1 discard only edges and are most efficient.
+        - normalize: whether to normalize the data before inputting into DAS-N2N model (recommended unless already normalized)
+        - remove_mean_axis: axis over which to subtract mean (None = mean across all inputted data; default). Recommend subtracting over axis=0 to handle large variations along fibre.
+        - std_norm_axis: As above, but with standard deviation normalization. Default is None (std over all input data). Recommended to run over axis=0 to handle along fibre variations.
+        - eps: Small epsilon for handling zero divides.
+        - channel_block_width: If > 1, normalizes data by mean and std over a rolling block of DAS channels (of width channel_block_width), instead of single axis or all channels.
+        - rmean_on_end: Remove mean after processing with DAS-N2N.
         - track_processing_time: if True, prints the time taken at various steps of function code.
-
         '''
                 
         if track_processing_time:
@@ -131,7 +136,7 @@ class DASN2N(nn.Module):
                     norm_factor = np.squeeze(norm_factor)
                     norm_factor = np.array([np.pad(norm_factor[norm_offset:], (0, norm_offset), mode='reflect') for norm_offset in range(channel_block_width)])
                     norm_factor = np.median(norm_factor, axis=0)
-            das_numpy_array = das_numpy_array / norm_factor
+            das_numpy_array = das_numpy_array / norm_factor + eps
             
         # Make sure data type is float32 (required for torch model):
         if das_numpy_array.dtype != 'float32':
