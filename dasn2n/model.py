@@ -137,7 +137,7 @@ class DASN2N(nn.Module):
                     norm_factor = np.squeeze(norm_factor)
                     norm_factor = np.array([np.pad(norm_factor[norm_offset:], (0, norm_offset), mode='reflect') for norm_offset in range(channel_block_width)])
                     norm_factor = np.median(norm_factor, axis=0)
-            das_numpy_array = das_numpy_array / norm_factor + eps
+            das_numpy_array = das_numpy_array / (norm_factor + eps)
             
         # Make sure data type is float32 (required for torch model):
         if das_numpy_array.dtype != 'float32':
